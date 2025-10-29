@@ -21,17 +21,24 @@ export function createX402Middleware(config: X402Config, routeConfig: { price: s
       const paymentHeader = x402.extractPayment(req.headers);
 
       // Create payment requirements
+      // USDC on Solana has 6 decimals
+      // Resource must be in URL format: protocol://path
+      const resourceUrl: `${string}://${string}` = routeConfig.resource.startsWith('http://') || routeConfig.resource.startsWith('https://')
+        ? (routeConfig.resource as `${string}://${string}`)
+        : (`https://${routeConfig.resource}` as `${string}://${string}`);
+      
       const paymentRequirements = await x402.createPaymentRequirements({
         price: {
           amount: routeConfig.price, // In micro-units as string
           asset: {
             address: config.usdcMint,
+            decimals: 6, // USDC on Solana uses 6 decimals
           },
         },
         network: config.network,
         config: {
           description: routeConfig.description,
-          resource: routeConfig.resource,
+          resource: resourceUrl,
         },
       });
 

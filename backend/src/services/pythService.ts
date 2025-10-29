@@ -1,5 +1,5 @@
-import { Connection, clusterApiUrl } from '@solana/web3.js';
-import { PythHttpClient, getPythProgramKeyForCluster } from '@pythnetwork/client';
+import { Connection, clusterApiUrl, Cluster } from '@solana/web3.js';
+import { PythHttpClient, getPythProgramKeyForCluster, PythCluster } from '@pythnetwork/client';
 
 export interface PriceData {
   price: number;
@@ -20,12 +20,26 @@ export class PythService {
   private priceHistory: PriceHistory = {};
 
   constructor(network: string = 'devnet') {
+    // Map Solana network to Pyth cluster
+    // For Pyth, we typically use 'pythnet' for production or connect to Pythnet RPC
+    // For devnet, we can use 'devnet' as it's a valid Cluster type
+    let pythCluster: PythCluster;
+    if (network === 'devnet') {
+      pythCluster = 'devnet';
+    } else if (network === 'mainnet-beta') {
+      pythCluster = 'mainnet-beta';
+    } else {
+      // Default to devnet if unknown
+      pythCluster = 'devnet';
+      network = 'devnet';
+    }
+
     const rpcUrl = network === 'devnet' 
       ? 'https://api.devnet.solana.com'
-      : clusterApiUrl(network as 'mainnet-beta');
+      : clusterApiUrl(network as Cluster);
     
     this.connection = new Connection(rpcUrl, 'confirmed');
-    const pythPublicKey = getPythProgramKeyForCluster(network);
+    const pythPublicKey = getPythProgramKeyForCluster(pythCluster);
     this.client = new PythHttpClient(this.connection, pythPublicKey);
   }
 
