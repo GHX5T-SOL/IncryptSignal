@@ -67,9 +67,16 @@ export const Dashboard: React.FC = () => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <h1 className="text-5xl font-bold neon-glow mb-2">
-            INCryptSignal
-          </h1>
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <img 
+              src={`${process.env.PUBLIC_URL || ''}/logo.png`} 
+              alt="IncryptSignal Logo" 
+              className="h-16 w-16 object-contain"
+            />
+            <h1 className="text-5xl font-bold neon-glow">
+              INCryptSignal
+            </h1>
+          </div>
           <p className="text-xl text-gray-400">
             Trustless AI Agent Trading Signals on Solana
           </p>
