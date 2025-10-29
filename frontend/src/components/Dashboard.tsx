@@ -1,24 +1,58 @@
 import React, { useState } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useX402Client } from '../hooks/useX402Client';
-import { SignalRequestForm } from './SignalRequestForm';
-import { SignalCard, TradingSignal } from './SignalCard';
-import { ReputationLeaderboard } from './ReputationLeaderboard';
+import { useNavigate } from 'react-router-dom';
+import { AgentCard, AgentStats } from './AgentCard';
+import { MOCK_AGENTS } from '../data/agents';
+import { Starfield } from './Starfield';
+import { WalletButton } from './WalletButton';
 import { Footer } from './Footer';
+import { SignalResult } from './SignalResult';
 import { motion } from 'framer-motion';
 
+const TRADING_PAIRS = ['BTC/USD', 'ETH/USD', 'SOL/USD'];
+
+export interface EnhancedTradingSignal {
+  agentId: string;
+  agentName: string;
+  signal: 'long' | 'short';
+  currentPrice: number;
+  leverage: number;
+  liquidationLevel: number;
+  portfolioPercentage: number;
+  takeProfit: number;
+  stopLoss: number;
+  reasoning: string;
+  confidence: number;
+  timestamp: number;
+  symbol: string;
+}
+
 export const Dashboard: React.FC = () => {
+  const navigate = useNavigate();
   const { connected } = useWallet();
   const x402Client = useX402Client();
+  const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
+  const [selectedAsset, setSelectedAsset] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
-  const [signal, setSignal] = useState<TradingSignal | null>(null);
+  const [signal, setSignal] = useState<EnhancedTradingSignal | null>(null);
   const [receiptHash, setReceiptHash] = useState<string | null>(null);
   const [transactionSignature, setTransactionSignature] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleRequestSignal = async (symbol: string) => {
+  const handleRequestSignal = async () => {
     if (!connected || !x402Client) {
       setError('Please connect your wallet first');
+      return;
+    }
+
+    if (!selectedAgent) {
+      setError('Please select an AI agent');
+      return;
+    }
+
+    if (!selectedAsset) {
+      setError('Please select a trading pair');
       return;
     }
 
@@ -35,7 +69,10 @@ export const Dashboard: React.FC = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ symbol }),
+        body: JSON.stringify({ 
+          symbol: selectedAsset,
+          agentId: selectedAgent,
+        }),
       });
 
       if (!response.ok) {
@@ -60,80 +97,155 @@ export const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-dark-bg p-4 md:p-8">
-      <div className="max-w-7xl mx-auto space-y-8">
-        {/* Header */}
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <div className="flex items-center justify-center gap-4 mb-4">
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-[#0a0a0a] via-[#1a1a2e] to-[#0a0a0a]">
+      <Starfield />
+      <div className="relative z-10">
+        {/* Wallet Button */}
+        <div className="fixed top-4 right-4 z-50">
+          <WalletButton />
+        </div>
+
+        {/* Header with Back to Home */}
+        <div className="max-w-7xl mx-auto px-4 md:px-8 pt-8 pb-4">
+          <div className="flex items-center justify-between mb-8">
+            <motion.button
+              onClick={() => navigate('/')}
+              className="text-neon-cyan hover:text-neon-magenta transition-colors duration-300 flex items-center gap-2"
+              whileHover={{ x: -5 }}
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              <span>Back to Home</span>
+            </motion.button>
             <img 
               src="/logo.png" 
               alt="IncryptSignal Logo" 
-              className="h-16 w-16 object-contain"
+              className="h-12 w-12 object-contain"
             />
-            <h1 className="text-5xl font-bold neon-glow">
-              INCryptSignal
-            </h1>
           </div>
-          <p className="text-xl text-gray-400">
-            Trustless AI Agent Trading Signals on Solana
-          </p>
-        </motion.div>
 
-        {!connected && (
           <motion.div
-            className="holographic rounded-lg p-6 text-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
           >
-            <p className="text-neon-cyan neon-glow text-xl">
-              Connect your wallet to start receiving trading signals
+            <h1 className="text-4xl md:text-6xl font-bold cyberpunk-gradient mb-4">
+              THE ARENA
+            </h1>
+            <p className="text-xl text-gray-300">
+              Select your AI agent and trading pair to get real-time signals
             </p>
           </motion.div>
-        )}
+        </div>
 
-        {connected && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Signal Request Section */}
-            <div className="space-y-6">
-              <SignalRequestForm
-                onRequestSignal={handleRequestSignal}
-                isLoading={isLoading}
-              />
-
-              {error && (
-                <motion.div
-                  className="holographic rounded-lg p-4 border border-red-500"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
-                  <p className="text-red-400">{error}</p>
-                </motion.div>
-              )}
-
-              {signal && (
-                <SignalCard
-                  signal={signal}
-                  receiptHash={receiptHash || undefined}
-                  transactionSignature={transactionSignature || undefined}
+        {/* Main Content */}
+        <div className="max-w-7xl mx-auto px-4 md:px-8 pb-12 space-y-12">
+          {/* Agent Selection */}
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <h2 className="text-3xl font-bold text-neon-magenta mb-6 font-cyberpunk">
+              Select Your AI Agent
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              {MOCK_AGENTS.map((agent) => (
+                <AgentCard
+                  key={agent.agentId}
+                  agent={agent}
+                  isSelected={selectedAgent === agent.agentId}
+                  onSelect={setSelectedAgent}
                 />
-              )}
+              ))}
             </div>
+          </motion.section>
 
-            {/* Leaderboard Section */}
-            <div>
-              <ReputationLeaderboard />
-            </div>
-          </div>
-        )}
+          {/* Asset Selection & Request */}
+          {connected && (
+            <motion.section
+              className="liquid-glass rounded-lg p-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <h2 className="text-2xl font-bold text-neon-cyan mb-6 font-cyberpunk">
+                Request Trading Signal
+              </h2>
+              
+              <div className="space-y-6">
+                {/* Asset Selection */}
+                <div>
+                  <label className="block text-gray-300 mb-2 font-semibold">
+                    Select Trading Pair
+                  </label>
+                  <select
+                    value={selectedAsset}
+                    onChange={(e) => setSelectedAsset(e.target.value)}
+                    className="w-full bg-dark-panel border-2 border-neon-cyan rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-neon-magenta"
+                  >
+                    <option value="">Choose an asset...</option>
+                    {TRADING_PAIRS.map((pair) => (
+                      <option key={pair} value={pair}>
+                        {pair}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="text-gray-400 text-sm mt-2">
+                    More assets coming soon
+                  </p>
+                </div>
 
-        {/* Footer */}
-        <Footer />
+                {/* Request Button */}
+                <button
+                  onClick={handleRequestSignal}
+                  disabled={!selectedAgent || !selectedAsset || isLoading}
+                  className="cyberpunk-button w-full py-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isLoading ? 'Processing...' : 'Request Signal'}
+                </button>
+
+                {/* Error Display */}
+                {error && (
+                  <motion.div
+                    className="liquid-glass rounded-lg p-4 border-2 border-red-500"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                  >
+                    <p className="text-red-400">{error}</p>
+                  </motion.div>
+                )}
+              </div>
+            </motion.section>
+          )}
+
+          {/* Signal Result */}
+          {signal && (
+            <SignalResult
+              signal={signal}
+              receiptHash={receiptHash}
+              transactionSignature={transactionSignature}
+            />
+          )}
+
+          {/* Connect Wallet Prompt */}
+          {!connected && (
+            <motion.div
+              className="liquid-glass rounded-lg p-8 text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <p className="text-neon-cyan neon-glow text-xl mb-4">
+                Connect your wallet to start receiving trading signals
+              </p>
+            </motion.div>
+          )}
+
+          {/* Footer */}
+          <Footer />
+        </div>
       </div>
     </div>
   );
 };
-

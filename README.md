@@ -5,11 +5,9 @@
 ![Solana](https://img.shields.io/badge/Solana-Ready-brightgreen)
 ![x402](https://img.shields.io/badge/x402-Protocol-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue)
-![License](https://img.shields.io/badge/License-MIT-yellow)
+![License](https://img.shields.io/badge/License-Proprietary-red)
 
-**Trustless AI Agent Application for Real-Time Trading Signals with Micropayments**
-
-*Built for Solana x402 Hackathon*
+**AI-Powered Trading Signals for Leveraged Perpetual Trading on Solana**
 
 [Features](#-features) • [Setup](#-setup) • [Demo](#-demo) • [Architecture](#-architecture)
 
@@ -19,26 +17,59 @@
 
 ## 🔮 Overview
 
-IncryptSignal is a trustless AI agent application that provides real-time trading signals derived from oracle price deltas via micropayments in USDC on Solana. Users or agents pay sub-cent fees (~$0.01) per signal using the x402 protocol with gasless transactions powered by Kora.
+IncryptSignal is a production-ready AI trading platform that provides real-time trading signals for leveraged perpetual trading of cryptocurrency assets. Our platform features three specialized AI agents (Zyra, Aria, and Nova) trained with real-time market data, technical analysis, and fundamental insights to deliver precise trading recommendations.
 
 ### Key Features
 
-- ✅ **Real-Time Signals**: Oracle price deltas from Pyth Network
-- ✅ **Micropayments**: Sub-cent USDC payments via x402 protocol
-- ✅ **Gasless Transactions**: Powered by PayAI facilitator
-- ✅ **Trustless Receipts**: On-chain verification of signal deliveries
-- ✅ **Reputation System**: Agent scoring based on successful deliveries
-- ✅ **Cyberpunk UI**: Futuristic Ghost in the Shell inspired design
+- ✅ **Three AI Trading Agents**: Zyra (High Risk), Aria (Medium Risk), Nova (Low Risk)
+- ✅ **Real-Time Analysis**: Comprehensive technical and fundamental analysis
+- ✅ **Market Data Integration**: Long/short ratios, liquidation heatmaps, fear & greed index
+- ✅ **Leverage Recommendations**: Precise leverage suggestions up to 100x with liquidation warnings
+- ✅ **Micropayments**: Sub-cent USDC payments via x402 protocol on Solana
+- ✅ **Gasless Transactions**: Powered by PayAI facilitator for seamless UX
+- ✅ **Trustless Receipts**: On-chain verification of all signal deliveries
+- ✅ **Reputation System**: Agent performance tracking and leaderboards
+- ✅ **Cyberpunk UI**: Futuristic design with liquid glass and holographic elements
 
 ---
 
-## 🎯 Hackathon Track Alignment
+## 🎯 Features
 
-This project fits multiple Solana x402 Hackathon tracks:
+### AI Trading Agents
 
-- **x402 Agent Application**: Real AI use cases for autonomous agents
-- **Trustless Agent Implementation**: Identity, reputation, and validation systems
-- **x402 API Integration**: Agent-to-agent communication & micropayments
+- **Zyra** - The High Risk Trader
+  - Aggressive entries with high leverage opportunities (20-100x)
+  - Larger portfolio allocation (15-30%)
+  - Higher risk-reward ratios (3:1+)
+  - Perfect for experienced traders seeking maximum returns
+
+- **Aria** - The Medium Risk Trader
+  - Balanced approach with optimal risk-reward ratios
+  - Moderate leverage (5-25x) and portfolio allocation (5-15%)
+  - Suitable for most traders looking for steady growth
+
+- **Nova** - The Low Risk Trader
+  - Conservative strategy with tighter stops
+  - Lower leverage (1-10x) and portfolio allocation (2-8%)
+  - Ideal for risk-averse traders prioritizing capital preservation
+
+### Trading Signals Include
+
+- **Direction**: Long or Short recommendation
+- **Leverage**: Precise leverage recommendation (1x-100x)
+- **Portfolio Allocation**: Recommended percentage of portfolio to allocate
+- **Take Profit Target**: AI-calculated profit target
+- **Stop Loss Level**: Risk management stop loss
+- **Liquidation Warning**: Calculated liquidation price based on leverage
+- **Analysis**: AI-generated reasoning based on market conditions
+
+### Market Data Sources
+
+- Pyth Network for real-time price feeds
+- CoinGlass for liquidation data and long/short ratios
+- Alternative.me for Fear & Greed Index
+- Technical indicators (RSI, MACD) calculated from price history
+- AI analysis powered by Hugging Face Inference API
 
 ---
 
@@ -46,55 +77,39 @@ This project fits multiple Solana x402 Hackathon tracks:
 
 ```
 ┌─────────────┐      ┌──────────────┐      ┌─────────────────┐
-│   Client    │─────>│   Backend    │─────>│  x402 Facilitator│
-│  (React)    │      │  (Express)   │      │  (PayAI Network) │
+│   Frontend  │─────>│   Backend    │─────>│  x402 Facilitator│
+│   (React)   │      │  (Express)   │      │  (PayAI Network) │
+│             │      │              │      │                 │
+│  - Home     │      │  - Agents    │      │  - Gasless Tx   │
+│  - Arena    │      │  - Signals   │      │  - Payment Ver. │
+│  - Wallet   │      │  - AI Service │      │                 │
 └─────────────┘      └──────────────┘      └─────────────────┘
-                            │                        │
-                            │                        │
-                            ▼                        ▼
-                     ┌──────────────┐      ┌─────────────────┐
-                     │ Pyth Network │      │  Solana Devnet  │
-                     │  (Oracle)    │      │  (Blockchain)   │
-                     └──────────────┘      └─────────────────┘
+                            │
+                            ├──> Pyth Network (Price Feeds)
+                            ├──> Market Data APIs (Long/Short, Liquidation)
+                            ├──> Hugging Face (AI Analysis)
+                            └──> PostgreSQL (Storage)
 ```
-
-### Payment Flow
-
-1. Client requests signal → Backend returns 402 Payment Required
-2. Client creates USDC payment transaction
-3. Payment sent to Facilitator for verification & settlement
-4. Transaction confirmed on-chain (~400ms finality)
-5. Backend delivers signal with trustless receipt hash
 
 ---
 
-## ✨ Features
+## 📦 Tech Stack
 
-### Trading Signals
-- Real-time price delta analysis from Pyth Network
-- Long/Short signal generation based on price movements
-- Confidence scoring and market data
+### Frontend
+- **React 18** with TypeScript
+- **Tailwind CSS** with custom cyberpunk theme
+- **Framer Motion** for animations
+- **Solana Wallet Adapter** for wallet integration
+- **PayAI x402 Client** for payment handling
+- **React Router** for navigation
 
-### Micropayments
-- ~$0.01 USDC per signal (10000 micro-units)
-- Gasless transactions via PayAI facilitator
-- Instant settlement with ~400ms finality
-
-### Trustless Receipts
-- Cryptographic hashing of transaction signatures
-- On-chain verification capability
-- Transparent payment history
-
-### Reputation System
-- Track agent performance metrics
-- Success/failure rate tracking
-- Leaderboard system for top agents
-
-### Cyberpunk UI
-- Dark theme with neon cyan/magenta accents
-- Holographic card effects
-- Glitch animations and liquid glass styling
-- Responsive design
+### Backend
+- **Node.js** with Express and TypeScript
+- **PostgreSQL** for persistent storage
+- **Pyth Network** for oracle price feeds
+- **Hugging Face Inference API** for AI analysis
+- **PayAI x402 Server** for payment protection
+- **Market Data APIs** (CoinGlass, Alternative.me)
 
 ---
 
@@ -102,164 +117,110 @@ This project fits multiple Solana x402 Hackathon tracks:
 
 ### Prerequisites
 
-- Node.js (LTS or later)
-- npm or yarn
-- Solana CLI (for Devnet testing)
-- A Solana wallet (Phantom, etc.)
+- Node.js 18+ and npm
+- PostgreSQL database (or Railway managed)
+- Solana wallet (Phantom, Solflare)
+- Devnet SOL and USDC for testing
+- Hugging Face API key (free tier available)
 
-### Installation
+### Backend Setup
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd incryptsignal
-   ```
-
-2. **Install backend dependencies**
-   ```bash
-   cd backend
-   npm install
-   ```
-
-3. **Install frontend dependencies**
-   ```bash
-   cd ../frontend
-   npm install
-   ```
-
-4. **Configure environment variables**
-
-   Backend `.env`:
-   ```env
-   SOLANA_NETWORK=devnet
-   USDC_MINT_ADDRESS=4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU
-   TREASURY_WALLET_ADDRESS=<your-treasury-address>
-   FACILITATOR_URL=https://facilitator.payai.network
-   RPC_URL=https://api.devnet.solana.com
-   PYTH_NETWORK=devnet
-   PORT=3001
-   ```
-
-   Frontend `.env.local`:
-   ```env
-   REACT_APP_API_URL=http://localhost:3001
-   REACT_APP_NETWORK=devnet
-   ```
-
-5. **Start the backend server**
-   ```bash
-   cd backend
-   npm run dev
-   ```
-
-6. **Start the frontend**
-   ```bash
-   cd frontend
-   npm start
-   ```
-
-7. **Access the application**
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:3001
-
----
-
-## 🎬 Demo
-
-### Demo Video
-[Watch the 3-minute demo video](https://youtube.com/watch?v=...) *(Link to be updated)*
-
-### Quick Start Demo
-
-1. **Connect Wallet**: Click the wallet button in the top-right corner
-2. **Request Signal**: Enter a trading pair (e.g., BTC/USD) and click "Get Signal"
-3. **Pay**: Approve the USDC payment transaction
-4. **Receive**: View your trading signal with holographic display
-5. **Verify**: Check the receipt hash for on-chain verification
-
----
-
-## 📁 Project Structure
-
+```bash
+cd backend
+npm install
+cp .env.example .env
+# Edit .env with your configuration
+npm run build
+npm start
 ```
-incryptsignal/
-├── backend/
-│   ├── src/
-│   │   ├── server.ts              # Express server
-│   │   ├── routes/
-│   │   │   └── signals.ts          # Signal endpoints
-│   │   ├── services/
-│   │   │   ├── pythService.ts     # Pyth Network integration
-│   │   │   ├── signalService.ts   # Signal generation
-│   │   │   ├── reputationService.ts # Reputation tracking
-│   │   │   └── receiptService.ts  # Receipt hashing
-│   │   └── middleware/
-│   │       └── x402.ts            # x402 payment middleware
-│   ├── package.json
-│   └── tsconfig.json
-├── frontend/
-│   ├── src/
-│   │   ├── App.tsx
-│   │   ├── components/
-│   │   │   ├── WalletButton.tsx
-│   │   │   ├── SignalRequestForm.tsx
-│   │   │   ├── SignalCard.tsx
-│   │   │   ├── ReputationLeaderboard.tsx
-│   │   │   └── Dashboard.tsx
-│   │   ├── hooks/
-│   │   │   └── useX402Client.ts
-│   │   └── styles/
-│   ├── package.json
-│   └── tailwind.config.js
-├── .gitignore
-├── LICENSE
-└── README.md
+
+### Frontend Setup
+
+```bash
+cd frontend
+npm install --legacy-peer-deps
+cp .env.example .env
+# Edit .env with your API URL
+npm start
+```
+
+### Environment Variables
+
+#### Backend (.env)
+```env
+# Solana Configuration
+SOLANA_NETWORK=devnet
+RPC_URL=https://api.devnet.solana.com
+USDC_MINT_ADDRESS=4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU
+TREASURY_WALLET_ADDRESS=your_treasury_address
+FACILITATOR_URL=https://facilitator.payai.network
+
+# Database
+DATABASE_URL=postgresql://user:pass@host:port/db
+
+# AI Service
+HUGGINGFACE_API_KEY=your_huggingface_api_key
+
+# Server
+PORT=3001
+```
+
+#### Frontend (.env)
+```env
+REACT_APP_API_URL=http://localhost:3001
+REACT_APP_NETWORK=devnet
 ```
 
 ---
 
-## 🔧 API Endpoints
+## 🎨 UI Features
 
-### Protected Endpoints (Require x402 Payment)
-
-- `POST /api/signals` - Request trading signal
-  - Body: `{ symbol: "BTC/USD" }`
-  - Payment: 0.01 USDC
-  - Response: `{ signal: "long" | "short", confidence: number, price: number, delta: number }`
-
-### Public Endpoints
-
-- `GET /health` - Health check
-- `GET /api/receipt/:hash` - Verify receipt hash
-- `GET /api/reputation` - Get reputation data
-- `GET /api/reputation/leaderboard` - Get leaderboard
+- **Animated Starfield**: 3D particle background effect
+- **Liquid Glass Cards**: Holographic glass morphism effects
+- **Neon Accents**: Cyan and magenta color scheme
+- **Responsive Design**: Mobile and desktop optimized
+- **Agent Videos**: Auto-playing, looping video backgrounds with image fallback
 
 ---
 
-## 🛠️ Tech Stack
+## 📊 Trading Assets
 
-### Backend
-- **Express.js** - Web framework
-- **TypeScript** - Type safety
-- **@payai/x402-solana** - x402 protocol integration
-- **@solana/web3.js** - Solana blockchain interaction
-- **@pythnetwork/client** - Oracle price feeds
+Currently supported:
+- **BTC/USD**
+- **ETH/USD**
+- **SOL/USD**
 
-### Frontend
-- **React** - UI framework
-- **TypeScript** - Type safety
-- **Tailwind CSS** - Styling
-- **Framer Motion** - Animations
-- **@solana/wallet-adapter-react** - Wallet integration
-- **@payai/x402-solana/client** - x402 client
+*More assets coming soon!*
 
 ---
 
-## 📝 License
+## 🔐 Security
 
-Proprietary License - All Rights Reserved. See [LICENSE](LICENSE) file for details.
+- All payments verified on-chain via x402 protocol
+- Trustless receipt hashing stored in PostgreSQL
+- Reputation tracking prevents abuse
+- CORS configured for secure API access
 
-This software is proprietary and confidential. Unauthorized use is strictly prohibited.
+---
+
+## 🌐 Deployment
+
+### Railway (Recommended)
+
+Backend and database can be deployed on Railway:
+1. Connect your GitHub repository
+2. Add PostgreSQL service
+3. Set environment variables
+4. Deploy
+
+### Vercel
+
+Frontend can be deployed on Vercel:
+1. Connect your GitHub repository
+2. Set environment variables
+3. Deploy
+
+See `DEPLOYMENT_GUIDE.md` for detailed instructions.
 
 ---
 
@@ -272,24 +233,27 @@ For questions, support, or collaboration inquiries, please reach out via email o
 
 ---
 
-## 🤝 Contributing
+## 📝 License
 
-This is a hackathon submission. Contributions are welcome for future development!
+**Proprietary License - All Rights Reserved**
+
+Copyright (c) 2025 IncryptSignal. All Rights Reserved. This software is proprietary and confidential. Unauthorized use is strictly prohibited.
+
+See [LICENSE](LICENSE) file for details.
 
 ---
 
 ## 🙏 Acknowledgments
 
-- Solana Foundation for the x402 protocol
-- PayAI Network for facilitator infrastructure
-- Pyth Network for oracle price feeds
-- The Solana developer community
+- **Solana Foundation** for the x402 protocol
+- **PayAI Network** for x402 implementation
+- **Pyth Network** for oracle price feeds
+- **Hugging Face** for AI inference capabilities
 
 ---
 
 <div align="center">
 
-**Built with ❤️ for Solana x402 Hackathon**
+**Built with ❤️ for the future of decentralized trading**
 
 </div>
-

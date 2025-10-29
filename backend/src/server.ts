@@ -93,6 +93,10 @@ async function startServer() {
   const network = (process.env.SOLANA_NETWORK === 'mainnet' ? 'solana' : 'solana-devnet') as 'solana' | 'solana-devnet';
   const pythService = new PythService(process.env.PYTH_NETWORK || 'devnet');
   const signalService = new SignalService(pythService);
+  
+  // Initialize agent service
+  const { agentService } = await import('./services/agentService');
+  agentService.setPythService(pythService);
 
 // x402 Configuration
 const x402Config = {

@@ -10,6 +10,12 @@ module.exports = {
         'neon-magenta': '#ff00ff',
         'dark-bg': '#000000',
         'dark-panel': '#0a0a0a',
+        'magenta': '#FF00FF',
+        'cyan': '#00FFFF',
+      },
+      fontFamily: {
+        'cyberpunk': ['Orbitron', 'sans-serif'],
+        'body': ['Rajdhani', 'sans-serif'],
       },
       boxShadow: {
         'neon-cyan': '0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 60px #00ffff',

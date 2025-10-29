@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { SignalService } from '../services/signalService';
+import { agentService } from '../services/agentService';
 import { receiptService } from '../services/receiptService';
 import { reputationService } from '../services/reputationService';
 import { createX402Middleware } from '../middleware/x402';
@@ -26,12 +27,20 @@ export function createSignalsRouter(
     }),
     async (req: Request, res: Response) => {
       try {
-        const { symbol } = req.body;
+        const { symbol, agentId } = req.body;
 
         if (!symbol || typeof symbol !== 'string') {
           res.status(400).json({
             success: false,
             error: 'Invalid symbol parameter',
+          });
+          return;
+        }
+
+        if (!agentId || typeof agentId !== 'string') {
+          res.status(400).json({
+            success: false,
+            error: 'Invalid agentId parameter',
           });
           return;
         }
@@ -45,8 +54,18 @@ export function createSignalsRouter(
           return;
         }
 
-        // Generate signal
-        const signal = await signalService.generateSignal(symbol);
+        // Validate agent
+        const agent = agentService.getAgent(agentId);
+        if (!agent) {
+          res.status(400).json({
+            success: false,
+            error: `Invalid agent: ${agentId}. Available agents: zyra, aria, nova`,
+          });
+          return;
+        }
+
+        // Generate agent signal
+        const signal = await agentService.generateAgentSignal(agentId, symbol);
 
         if (!signal) {
           res.status(500).json({
@@ -70,8 +89,7 @@ export function createSignalsRouter(
 
         const receiptHash = await receiptService.storeReceipt(receiptData);
 
-        // Extract agent ID from payment (use client public key as agent ID)
-        const agentId = paymentInfo?.paymentHeader?.clientPublicKey || 'unknown';
+        // Update reputation using actual agent ID
         await reputationService.updateReputation(agentId, true);
 
         // Return signal with receipt

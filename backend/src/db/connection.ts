@@ -68,6 +68,34 @@ export async function initializeDatabase(): Promise<void> {
       );
     `);
 
+    // Create agent_stats table
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS agent_stats (
+        agent_id VARCHAR(255) PRIMARY KEY,
+        roi_7d DECIMAL(10, 4) DEFAULT 0,
+        roi_30d DECIMAL(10, 4) DEFAULT 0,
+        roi_90d DECIMAL(10, 4) DEFAULT 0,
+        max_drawdown DECIMAL(10, 4) DEFAULT 0,
+        avg_gain_per_trade DECIMAL(10, 4) DEFAULT 0,
+        avg_loss_per_trade DECIMAL(10, 4) DEFAULT 0,
+        biggest_win DECIMAL(10, 4) DEFAULT 0,
+        biggest_loss DECIMAL(10, 4) DEFAULT 0,
+        total_trades INTEGER DEFAULT 0,
+        win_rate DECIMAL(5, 4) DEFAULT 0,
+        updated_at BIGINT NOT NULL
+      );
+    `);
+
+    // Insert initial mock stats for agents
+    await pool.query(`
+      INSERT INTO agent_stats (agent_id, roi_7d, roi_30d, roi_90d, max_drawdown, avg_gain_per_trade, avg_loss_per_trade, biggest_win, biggest_loss, total_trades, win_rate, updated_at)
+      VALUES 
+        ('zyra', 15.8, 42.5, 128.3, -28.5, 8.2, -5.1, 45.3, -22.8, 150, 0.65, $1),
+        ('aria', 8.2, 25.4, 67.8, -15.2, 5.1, -3.2, 28.7, -12.5, 200, 0.72, $1),
+        ('nova', 4.5, 12.8, 34.2, -8.5, 2.8, -1.9, 15.2, -6.8, 250, 0.78, $1)
+      ON CONFLICT (agent_id) DO NOTHING
+    `, [Date.now()]);
+
     // Create indexes for better query performance
     await pool.query(`
       CREATE INDEX IF NOT EXISTS idx_receipts_timestamp ON receipts(timestamp);

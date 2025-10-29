@@ -13,7 +13,7 @@ export const Footer: React.FC = () => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-center md:text-left">
             <p className="text-gray-400 text-sm">
-              Built with ❤️ for Solana x402 Hackathon
+              © 2025 IncryptSignal. All Rights Reserved.
             </p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">

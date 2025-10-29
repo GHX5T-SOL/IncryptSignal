@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
@@ -6,7 +7,7 @@ import {
   SolflareWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
-import { WalletButton } from './components/WalletButton';
+import { HomePage } from './components/HomePage';
 import { Dashboard } from './components/Dashboard';
 import '@solana/wallet-adapter-react-ui/styles.css';
 
@@ -34,10 +35,14 @@ function App() {
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-          <div className="App">
-            <WalletButton />
-            <Dashboard />
-          </div>
+          <Router>
+            <div className="App">
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/arena" element={<Dashboard />} />
+              </Routes>
+            </div>
+          </Router>
         </WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>

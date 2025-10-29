@@ -122,7 +122,7 @@ export class PythService {
    * Get available trading pairs
    */
   getAvailablePairs(): string[] {
-    return ['BTC/USD', 'ETH/USD', 'SOL/USD', 'USDC/USD'];
+    return ['BTC/USD', 'ETH/USD', 'SOL/USD'];
   }
 }
 

@@ -1,0 +1,47 @@
+import { AgentStats } from '../components/AgentCard';
+
+export const MOCK_AGENTS: AgentStats[] = [
+  {
+    agentId: 'zyra',
+    agentName: 'Zyra',
+    riskLevel: 'high',
+    tradingStyle: 'The High Risk Trader - Aggressive entries with high leverage opportunities. Perfect for experienced traders seeking maximum returns.',
+    roi7d: 15.8,
+    roi30d: 42.5,
+    roi90d: 128.3,
+    maxDrawdown: -28.5,
+    avgGainPerTrade: 8.2,
+    avgLossPerTrade: -5.1,
+    biggestWin: 45.3,
+    biggestLoss: -22.8,
+  },
+  {
+    agentId: 'aria',
+    agentName: 'Aria',
+    riskLevel: 'medium',
+    tradingStyle: 'The Medium Risk Trader - Balanced approach with optimal risk-reward ratios. Suitable for most traders looking for steady growth.',
+    roi7d: 8.2,
+    roi30d: 25.4,
+    roi90d: 67.8,
+    maxDrawdown: -15.2,
+    avgGainPerTrade: 5.1,
+    avgLossPerTrade: -3.2,
+    biggestWin: 28.7,
+    biggestLoss: -12.5,
+  },
+  {
+    agentId: 'nova',
+    agentName: 'Nova',
+    riskLevel: 'low',
+    tradingStyle: 'The Low Risk Trader - Conservative strategy with tighter stops and lower leverage. Ideal for risk-averse traders prioritizing capital preservation.',
+    roi7d: 4.5,
+    roi30d: 12.8,
+    roi90d: 34.2,
+    maxDrawdown: -8.5,
+    avgGainPerTrade: 2.8,
+    avgLossPerTrade: -1.9,
+    biggestWin: 15.2,
+    biggestLoss: -6.8,
+  },
+];
+
