@@ -4,6 +4,7 @@ import { useX402Client } from '../hooks/useX402Client';
 import { SignalRequestForm } from './SignalRequestForm';
 import { SignalCard, TradingSignal } from './SignalCard';
 import { ReputationLeaderboard } from './ReputationLeaderboard';
+import { Footer } from './Footer';
 import { motion } from 'framer-motion';
 
 export const Dashboard: React.FC = () => {
@@ -128,6 +129,9 @@ export const Dashboard: React.FC = () => {
             </div>
           </div>
         )}
+
+        {/* Footer */}
+        <Footer />
       </div>
     </div>
   );

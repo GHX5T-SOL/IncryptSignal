@@ -195,6 +195,13 @@ incryptsignal/
 ✅ Open source (MIT License)
 ✅ Ready for Devnet deployment
 
+## 📞 Contact
+
+- **X (Twitter)**: [@Incrypt_defi](https://x.com/Incrypt_defi)
+- **Email**: incryptinvestments@protonmail.com
+
+For questions, support, or collaboration inquiries, please reach out via email or X.
+
 ---
 
 **Project is complete and ready for hackathon submission!** 🚀

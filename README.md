@@ -263,6 +263,15 @@ This software is proprietary and confidential. Unauthorized use is strictly proh
 
 ---
 
+## 📞 Contact
+
+- **X (Twitter)**: [@Incrypt_defi](https://x.com/Incrypt_defi)
+- **Email**: incryptinvestments@protonmail.com
+
+For questions, support, or collaboration inquiries, please reach out via email or X.
+
+---
+
 ## 🤝 Contributing
 
 This is a hackathon submission. Contributions are welcome for future development!
