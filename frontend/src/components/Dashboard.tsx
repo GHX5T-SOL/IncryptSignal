@@ -101,56 +101,57 @@ export const Dashboard: React.FC = () => {
       <Starfield />
       <div className="relative z-10">
         {/* Wallet Button */}
-        <div className="fixed top-4 right-4 z-50">
+        <div className="fixed top-2 right-2 sm:top-4 sm:right-4 z-50">
           <WalletButton />
         </div>
 
         {/* Header with Back to Home */}
-        <div className="max-w-7xl mx-auto px-4 md:px-8 pt-8 pb-4">
-          <div className="flex items-center justify-between mb-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pt-6 sm:pt-8 pb-4">
+          <div className="flex items-center justify-between mb-6 sm:mb-8">
             <motion.button
               onClick={() => navigate('/')}
-              className="text-neon-cyan hover:text-neon-magenta transition-colors duration-300 flex items-center gap-2"
+              className="text-neon-cyan hover:text-neon-magenta transition-colors duration-300 flex items-center gap-2 text-sm sm:text-base"
               whileHover={{ x: -5 }}
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
-              <span>Back to Home</span>
+              <span className="hidden sm:inline">Back to Home</span>
+              <span className="sm:hidden">Back</span>
             </motion.button>
             <img 
               src="/logo.png" 
               alt="IncryptSignal Logo" 
-              className="h-12 w-12 object-contain"
+              className="h-8 w-8 sm:h-12 sm:w-12 object-contain"
             />
           </div>
 
           <motion.div
-            className="text-center mb-12"
+            className="text-center mb-8 sm:mb-12"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <h1 className="text-4xl md:text-6xl font-bold cyberpunk-gradient mb-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold cyberpunk-gradient mb-3 sm:mb-4">
               THE ARENA
             </h1>
-            <p className="text-xl text-gray-300">
+            <p className="text-base sm:text-lg md:text-xl text-gray-300 px-4">
               Select your AI agent and trading pair to get real-time signals
             </p>
           </motion.div>
         </div>
 
         {/* Main Content */}
-        <div className="max-w-7xl mx-auto px-4 md:px-8 pb-12 space-y-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pb-8 sm:pb-12 space-y-8 sm:space-y-12">
           {/* Agent Selection */}
           <motion.section
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <h2 className="text-3xl font-bold text-neon-magenta mb-6 font-cyberpunk">
+            <h2 className="text-2xl sm:text-3xl font-bold text-neon-magenta mb-4 sm:mb-6 font-cyberpunk px-2">
               Select Your AI Agent
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
               {MOCK_AGENTS.map((agent) => (
                 <AgentCard
                   key={agent.agentId}
@@ -165,12 +166,12 @@ export const Dashboard: React.FC = () => {
           {/* Asset Selection & Request */}
           {connected && (
             <motion.section
-              className="liquid-glass rounded-lg p-8"
+              className="liquid-glass rounded-lg p-4 sm:p-6 md:p-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
             >
-              <h2 className="text-2xl font-bold text-neon-cyan mb-6 font-cyberpunk">
+              <h2 className="text-xl sm:text-2xl font-bold text-neon-cyan mb-4 sm:mb-6 font-cyberpunk">
                 Request Trading Signal
               </h2>
               
@@ -201,7 +202,7 @@ export const Dashboard: React.FC = () => {
                 <button
                   onClick={handleRequestSignal}
                   disabled={!selectedAgent || !selectedAsset || isLoading}
-                  className="cyberpunk-button w-full py-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="cyberpunk-button w-full py-3 sm:py-4 text-base sm:text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? 'Processing...' : 'Request Signal'}
                 </button>

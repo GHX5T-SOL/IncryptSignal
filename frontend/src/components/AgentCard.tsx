@@ -62,7 +62,7 @@ export const AgentCard: React.FC<AgentCardProps> = ({ agent, isSelected, onSelec
       animate={{ opacity: 1, y: 0 }}
     >
       {/* Video/Image Header */}
-      <div className="relative w-full h-48 bg-black overflow-hidden">
+      <div className="relative w-full h-96 bg-black overflow-hidden">
         {!videoError ? (
           <video
             ref={videoRef}
@@ -93,35 +93,35 @@ export const AgentCard: React.FC<AgentCardProps> = ({ agent, isSelected, onSelec
       </div>
 
       {/* Agent Info */}
-      <div className="p-6">
-        <h3 className="text-2xl font-bold text-neon-magenta mb-2 font-cyberpunk">
+      <div className="p-4 sm:p-6">
+        <h3 className="text-xl sm:text-2xl font-bold text-neon-magenta mb-2 font-cyberpunk">
           {agent.agentName}
         </h3>
-        <p className="text-gray-300 text-sm mb-4">{agent.tradingStyle}</p>
+        <p className="text-gray-300 text-xs sm:text-sm mb-4">{agent.tradingStyle}</p>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 gap-4 mb-4">
-          <div className="liquid-glass rounded p-3">
+        <div className="grid grid-cols-2 gap-2 sm:gap-4 mb-4">
+          <div className="liquid-glass rounded p-2 sm:p-3">
             <p className="text-xs text-gray-400 mb-1">7D ROI</p>
-            <p className={`text-lg font-bold ${agent.roi7d >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+            <p className={`text-base sm:text-lg font-bold ${agent.roi7d >= 0 ? 'text-green-400' : 'text-red-400'}`}>
               {agent.roi7d >= 0 ? '+' : ''}{agent.roi7d.toFixed(2)}%
             </p>
           </div>
-          <div className="liquid-glass rounded p-3">
+          <div className="liquid-glass rounded p-2 sm:p-3">
             <p className="text-xs text-gray-400 mb-1">30D ROI</p>
-            <p className={`text-lg font-bold ${agent.roi30d >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+            <p className={`text-base sm:text-lg font-bold ${agent.roi30d >= 0 ? 'text-green-400' : 'text-red-400'}`}>
               {agent.roi30d >= 0 ? '+' : ''}{agent.roi30d.toFixed(2)}%
             </p>
           </div>
-          <div className="liquid-glass rounded p-3">
+          <div className="liquid-glass rounded p-2 sm:p-3">
             <p className="text-xs text-gray-400 mb-1">90D ROI</p>
-            <p className={`text-lg font-bold ${agent.roi90d >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+            <p className={`text-base sm:text-lg font-bold ${agent.roi90d >= 0 ? 'text-green-400' : 'text-red-400'}`}>
               {agent.roi90d >= 0 ? '+' : ''}{agent.roi90d.toFixed(2)}%
             </p>
           </div>
-          <div className="liquid-glass rounded p-3">
+          <div className="liquid-glass rounded p-2 sm:p-3">
             <p className="text-xs text-gray-400 mb-1">Max Drawdown</p>
-            <p className="text-lg font-bold text-red-400">
+            <p className="text-base sm:text-lg font-bold text-red-400">
               {agent.maxDrawdown.toFixed(2)}%
             </p>
           </div>
