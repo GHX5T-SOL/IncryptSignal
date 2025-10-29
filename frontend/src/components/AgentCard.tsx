@@ -66,7 +66,7 @@ export const AgentCard: React.FC<AgentCardProps> = ({ agent, isSelected, onSelec
         {!videoError ? (
           <video
             ref={videoRef}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-top"
             autoPlay
             loop
             muted
@@ -80,7 +80,7 @@ export const AgentCard: React.FC<AgentCardProps> = ({ agent, isSelected, onSelec
           <img
             src={`/trading agent's media/${agent.agentId}.png`}
             alt={agent.agentName}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-top"
             onError={() => console.error(`Failed to load image for ${agent.agentId}`)}
           />
         )}

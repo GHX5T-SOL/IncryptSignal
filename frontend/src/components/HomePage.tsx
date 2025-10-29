@@ -20,14 +20,9 @@ export const HomePage: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <div className="flex items-center justify-center gap-4 mb-6">
-            <img
-              src="/logo.png"
-              alt="IncryptSignal Logo"
-              className="h-20 w-20 object-contain"
-            />
+          <div className="flex items-center justify-center mb-6">
             <h1 className="text-6xl md:text-7xl font-bold cyberpunk-gradient">
-              INCryptSignal
+              IncryptSignal
             </h1>
           </div>
           <p className="text-xl md:text-2xl text-gray-300 neon-glow mb-4">
