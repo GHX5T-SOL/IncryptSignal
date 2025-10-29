@@ -9,6 +9,7 @@ module.exports = function override(config) {
     buffer: require.resolve('buffer'),
     util: require.resolve('util'),
     process: require.resolve('process/browser.js'),
+    vm: require.resolve('vm-browserify'),
   };
   
   // Add alias for process/browser with explicit extension
