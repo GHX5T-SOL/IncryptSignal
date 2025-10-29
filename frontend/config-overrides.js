@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const path = require('path');
 
 module.exports = function override(config) {
   config.resolve.fallback = {
@@ -7,13 +8,20 @@ module.exports = function override(config) {
     stream: require.resolve('stream-browserify'),
     buffer: require.resolve('buffer'),
     util: require.resolve('util'),
+    process: require.resolve('process/browser.js'),
+  };
+  
+  // Add alias for process/browser with explicit extension
+  config.resolve.alias = {
+    ...config.resolve.alias,
+    'process/browser': require.resolve('process/browser.js'),
   };
   
   config.plugins = [
     ...config.plugins,
     new webpack.ProvidePlugin({
       Buffer: ['buffer', 'Buffer'],
-      process: 'process/browser',
+      process: 'process/browser.js',
     }),
   ];
   
