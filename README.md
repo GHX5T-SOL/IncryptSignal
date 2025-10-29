@@ -257,7 +257,9 @@ incryptsignal/
 
 ## 📝 License
 
-MIT License - See [LICENSE](LICENSE) file for details
+Proprietary License - All Rights Reserved. See [LICENSE](LICENSE) file for details.
+
+This software is proprietary and confidential. Unauthorized use is strictly prohibited.
 
 ---
 

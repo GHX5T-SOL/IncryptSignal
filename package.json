@@ -1,0 +1,32 @@
+{
+  "name": "incryptsignal",
+  "version": "1.0.0",
+  "description": "Trustless AI Agent Application for Real-Time Trading Signals with Micropayments on Solana",
+  "private": true,
+  "scripts": {
+    "install:backend": "cd backend && npm install",
+    "install:frontend": "cd frontend && npm install",
+    "install:all": "npm run install:backend && npm run install:frontend",
+    "build:backend": "cd backend && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm start",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm start"
+  },
+  "keywords": [
+    "solana",
+    "x402",
+    "micropayments",
+    "pyth",
+    "trading-signals",
+    "ai-agents"
+  ],
+  "author": "",
+  "license": "PROPRIETARY",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USERNAME/incryptsignal.git"
+  }
+}
+
