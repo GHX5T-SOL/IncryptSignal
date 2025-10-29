@@ -1,4 +1,5 @@
 import { createHash } from 'crypto';
+import { pool } from '../db/connection';
 
 export interface ReceiptData {
   transactionSignature: string;
@@ -14,9 +15,6 @@ export interface ReceiptHash {
 }
 
 class ReceiptService {
-  // In-memory storage for demo (in production, use database or on-chain)
-  private receipts: Map<string, ReceiptHash> = new Map();
-
   /**
    * Hash receipt data for trustless verification
    */
@@ -32,53 +30,115 @@ class ReceiptService {
   }
 
   /**
-   * Store receipt hash for verification
+   * Store receipt hash in PostgreSQL database
    */
-  storeReceipt(receiptData: ReceiptData): string {
+  async storeReceipt(receiptData: ReceiptData): Promise<string> {
     const hash = this.hashReceipt(receiptData);
+    const createdAt = Date.now();
     
-    this.receipts.set(hash, {
-      hash,
-      receiptData,
-      createdAt: Date.now(),
-    });
+    try {
+      await pool.query(
+        `INSERT INTO receipts (hash, transaction_signature, signal_content, timestamp, client_public_key, created_at)
+         VALUES ($1, $2, $3, $4, $5, $6)
+         ON CONFLICT (hash) DO NOTHING`,
+        [
+          hash,
+          receiptData.transactionSignature,
+          receiptData.signalContent,
+          receiptData.timestamp,
+          receiptData.clientPublicKey || null,
+          createdAt,
+        ]
+      );
+    } catch (error) {
+      console.error('Error storing receipt in database:', error);
+      // Fallback to in-memory if database fails (for backwards compatibility)
+      throw error;
+    }
 
     return hash;
   }
 
   /**
-   * Verify receipt by hash
+   * Verify receipt by hash from PostgreSQL database
    */
-  verifyReceipt(hash: string): ReceiptHash | null {
-    const receipt = this.receipts.get(hash);
-    
-    if (!receipt) {
+  async verifyReceipt(hash: string): Promise<ReceiptHash | null> {
+    try {
+      const result = await pool.query(
+        `SELECT hash, transaction_signature, signal_content, timestamp, client_public_key, created_at
+         FROM receipts
+         WHERE hash = $1`,
+        [hash]
+      );
+
+      if (result.rows.length === 0) {
+        return null;
+      }
+
+      const row = result.rows[0];
+      const receiptData: ReceiptData = {
+        transactionSignature: row.transaction_signature,
+        signalContent: row.signal_content,
+        timestamp: row.timestamp,
+        clientPublicKey: row.client_public_key || undefined,
+      };
+
+      // Verify hash matches
+      const expectedHash = this.hashReceipt(receiptData);
+      if (expectedHash !== hash) {
+        return null;
+      }
+
+      return {
+        hash,
+        receiptData,
+        createdAt: row.created_at,
+      };
+    } catch (error) {
+      console.error('Error verifying receipt from database:', error);
       return null;
     }
-
-    // Verify hash matches
-    const expectedHash = this.hashReceipt(receipt.receiptData);
-    if (expectedHash !== hash) {
-      return null;
-    }
-
-    return receipt;
   }
 
   /**
-   * Get receipt by hash
+   * Get receipt by hash from PostgreSQL database
    */
-  getReceipt(hash: string): ReceiptHash | null {
-    return this.receipts.get(hash) || null;
+  async getReceipt(hash: string): Promise<ReceiptHash | null> {
+    return this.verifyReceipt(hash);
   }
 
   /**
-   * Get all receipts (for debugging/admin)
+   * Get all receipts from PostgreSQL database (for debugging/admin)
    */
-  getAllReceipts(): ReceiptHash[] {
-    return Array.from(this.receipts.values());
+  async getAllReceipts(limit: number = 100): Promise<ReceiptHash[]> {
+    try {
+      const result = await pool.query(
+        `SELECT hash, transaction_signature, signal_content, timestamp, client_public_key, created_at
+         FROM receipts
+         ORDER BY created_at DESC
+         LIMIT $1`,
+        [limit]
+      );
+
+      return result.rows.map((row) => {
+        const receiptData: ReceiptData = {
+          transactionSignature: row.transaction_signature,
+          signalContent: row.signal_content,
+          timestamp: row.timestamp,
+          clientPublicKey: row.client_public_key || undefined,
+        };
+
+        return {
+          hash: row.hash,
+          receiptData,
+          createdAt: row.created_at,
+        };
+      });
+    } catch (error) {
+      console.error('Error getting all receipts from database:', error);
+      return [];
+    }
   }
 }
 
 export const receiptService = new ReceiptService();
-

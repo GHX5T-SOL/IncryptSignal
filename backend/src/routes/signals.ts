@@ -68,11 +68,11 @@ export function createSignalsRouter(
           clientPublicKey: paymentInfo?.paymentHeader?.clientPublicKey || '',
         };
 
-        const receiptHash = receiptService.storeReceipt(receiptData);
+        const receiptHash = await receiptService.storeReceipt(receiptData);
 
         // Extract agent ID from payment (use client public key as agent ID)
         const agentId = paymentInfo?.paymentHeader?.clientPublicKey || 'unknown';
-        reputationService.updateReputation(agentId, true);
+        await reputationService.updateReputation(agentId, true);
 
         // Return signal with receipt
         res.json({
@@ -100,7 +100,7 @@ export function createSignalsRouter(
     try {
       const { hash } = req.params;
 
-      const receipt = receiptService.getReceipt(hash);
+      const receipt = await receiptService.getReceipt(hash);
 
       if (!receipt) {
         res.status(404).json({
@@ -129,7 +129,7 @@ export function createSignalsRouter(
       const { agentId } = req.query;
 
       if (agentId && typeof agentId === 'string') {
-        const reputation = reputationService.getReputation(agentId);
+        const reputation = await reputationService.getReputation(agentId);
         if (!reputation) {
           res.status(404).json({
             success: false,
@@ -142,7 +142,7 @@ export function createSignalsRouter(
           data: reputation,
         });
       } else {
-        const allReputations = reputationService.getAllReputations();
+        const allReputations = await reputationService.getAllReputations();
         res.json({
           success: true,
           data: allReputations,
@@ -160,7 +160,7 @@ export function createSignalsRouter(
   router.get('/api/reputation/leaderboard', async (req: Request, res: Response) => {
     try {
       const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 10;
-      const leaderboard = reputationService.getLeaderboard(limit);
+      const leaderboard = await reputationService.getLeaderboard(limit);
 
       res.json({
         success: true,

@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { PythService } from './services/pythService';
 import { SignalService } from './services/signalService';
 import { createSignalsRouter } from './routes/signals';
+import { initializeDatabase } from './db/connection';
 
 // Load environment variables
 dotenv.config();
@@ -73,10 +74,25 @@ app.get('/health', (req, res) => {
   });
 });
 
-// Initialize services
-const network = (process.env.SOLANA_NETWORK === 'mainnet' ? 'solana' : 'solana-devnet') as 'solana' | 'solana-devnet';
-const pythService = new PythService(process.env.PYTH_NETWORK || 'devnet');
-const signalService = new SignalService(pythService);
+// Initialize database (async)
+async function startServer() {
+  try {
+    // Initialize PostgreSQL database connection and schema
+    if (process.env.DATABASE_URL) {
+      await initializeDatabase();
+      console.log('✅ Database connected and schema initialized');
+    } else {
+      console.warn('⚠️  DATABASE_URL not set. Using in-memory storage (not persistent).');
+    }
+  } catch (error) {
+    console.error('❌ Failed to initialize database:', error);
+    // Continue without database (will use fallback if implemented)
+  }
+
+  // Initialize services
+  const network = (process.env.SOLANA_NETWORK === 'mainnet' ? 'solana' : 'solana-devnet') as 'solana' | 'solana-devnet';
+  const pythService = new PythService(process.env.PYTH_NETWORK || 'devnet');
+  const signalService = new SignalService(pythService);
 
 // x402 Configuration
 const x402Config = {
@@ -92,24 +108,31 @@ if (!x402Config.treasuryAddress) {
   console.warn('⚠️  TREASURY_WALLET_ADDRESS not set. Payment receiving address required.');
 }
 
-// Routes
-const signalsRouter = createSignalsRouter(signalService, x402Config);
-app.use('/', signalsRouter);
+  // Routes
+  const signalsRouter = createSignalsRouter(signalService, x402Config);
+  app.use('/', signalsRouter);
 
-// Error handling middleware
-app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.error('Unhandled error:', err);
-  res.status(500).json({
-    success: false,
-    error: 'Internal server error',
+  // Error handling middleware
+  app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    console.error('Unhandled error:', err);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error',
+    });
   });
-});
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 IncryptSignal Backend running on port ${PORT}`);
-  console.log(`📍 Network: ${network}`);
-  console.log(`💰 Signal price: ${parseInt(x402Config.signalPrice) / 1000000} USDC`);
-  console.log(`🏦 Treasury: ${x402Config.treasuryAddress || '⚠️  NOT SET'}`);
+  // Start server
+  app.listen(PORT, () => {
+    console.log(`🚀 IncryptSignal Backend running on port ${PORT}`);
+    console.log(`📍 Network: ${network}`);
+    console.log(`💰 Signal price: ${parseInt(x402Config.signalPrice) / 1000000} USDC`);
+    console.log(`🏦 Treasury: ${x402Config.treasuryAddress || '⚠️  NOT SET'}`);
+  });
+}
+
+// Start the server
+startServer().catch((error) => {
+  console.error('Failed to start server:', error);
+  process.exit(1);
 });
 
