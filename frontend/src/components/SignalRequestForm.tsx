@@ -11,7 +11,7 @@ export const SignalRequestForm: React.FC<SignalRequestFormProps> = ({
   isLoading,
 }) => {
   const [symbol, setSymbol] = useState('BTC/USD');
-  const availablePairs = ['BTC/USD', 'ETH/USD', 'SOL/USD', 'USDC/USD'];
+  const availablePairs = ['BTC/USD', 'ETH/USD', 'SOL/USD'];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,10 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { PythService } from './services/pythService';
-import { SignalService } from './services/signalService';
-import { createSignalsRouter } from './routes/signals';
-import { initializeDatabase } from './db/connection';
+import { PythService } from './services/pythService.js';
+import { SignalService } from './services/signalService.js';
+import { createSignalsRouter } from './routes/signals.js';
+import { initializeDatabase } from './db/connection.js';
+import { agentService } from './services/agentService.js';
 
 // Load environment variables
 dotenv.config();
@@ -95,7 +96,6 @@ async function startServer() {
   const signalService = new SignalService(pythService);
   
   // Initialize agent service
-  const { agentService } = await import('./services/agentService');
   agentService.setPythService(pythService);
 
 // x402 Configuration

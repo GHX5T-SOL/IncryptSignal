@@ -1,4 +1,4 @@
-import { pool } from '../db/connection';
+import { pool } from '../db/connection.js';
 
 export interface AgentReputation {
   agentId: string;

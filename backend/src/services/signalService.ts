@@ -1,4 +1,4 @@
-import { PythService } from './pythService';
+import { PythService } from './pythService.js';
 
 export interface TradingSignal {
   signal: 'long' | 'short' | 'neutral';

@@ -51,7 +51,12 @@ class AIService {
         },
       });
 
-      const analysis = this.parseAIResponse(response.generated_text || '', riskLevel, currentPrice);
+      // Handle different response types from Hugging Face
+      const generatedText = typeof response === 'string' 
+        ? response 
+        : (response as any)?.generated_text || '';
+
+      const analysis = this.parseAIResponse(generatedText, riskLevel, currentPrice);
       return analysis;
     } catch (error) {
       console.error('Error generating AI analysis:', error);
@@ -116,16 +121,21 @@ Analysis:`;
       // Try to extract JSON from response
       const jsonMatch = text.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
-        const parsed = JSON.parse(jsonMatch[0]);
-        return {
-          signal: parsed.signal === 'short' ? 'short' : 'long',
-          leverage: Math.max(1, Math.min(100, parsed.leverage || this.getDefaultLeverage(riskLevel))),
-          portfolioPercentage: Math.max(1, Math.min(100, parsed.portfolioPercentage || this.getDefaultPortfolio(riskLevel))),
-          takeProfit: parsed.takeProfit || this.calculateTakeProfit(currentPrice, parsed.signal === 'short'),
-          stopLoss: parsed.stopLoss || this.calculateStopLoss(currentPrice, parsed.signal === 'short'),
-          reasoning: parsed.reasoning || text,
-          confidence: Math.max(0.5, Math.min(1, parsed.confidence || 0.75)),
-        };
+        try {
+          const parsed = JSON.parse(jsonMatch[0]) as any;
+          const isShort = parsed.signal === 'short';
+          return {
+            signal: isShort ? 'short' : 'long',
+            leverage: Math.max(1, Math.min(100, parsed.leverage || this.getDefaultLeverage(riskLevel))),
+            portfolioPercentage: Math.max(1, Math.min(100, parsed.portfolioPercentage || this.getDefaultPortfolio(riskLevel))),
+            takeProfit: parsed.takeProfit || this.calculateTakeProfit(currentPrice, isShort),
+            stopLoss: parsed.stopLoss || this.calculateStopLoss(currentPrice, isShort),
+            reasoning: parsed.reasoning || text,
+            confidence: Math.max(0.5, Math.min(1, parsed.confidence || 0.75)),
+          };
+        } catch (parseError) {
+          console.error('Error parsing JSON from AI response:', parseError);
+        }
       }
     } catch (error) {
       console.error('Error parsing AI response:', error);

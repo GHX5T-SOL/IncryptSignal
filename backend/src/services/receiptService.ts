@@ -1,5 +1,5 @@
 import { createHash } from 'crypto';
-import { pool } from '../db/connection';
+import { pool } from '../db/connection.js';
 
 export interface ReceiptData {
   transactionSignature: string;

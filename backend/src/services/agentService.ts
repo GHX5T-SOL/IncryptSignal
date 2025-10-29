@@ -1,6 +1,6 @@
-import { aiService, AIAnalysisResult } from './aiService';
-import { marketDataService, MarketData } from './marketDataService';
-import { PythService } from './pythService';
+import { aiService, AIAnalysisResult } from './aiService.js';
+import { marketDataService, MarketData } from './marketDataService.js';
+import { PythService } from './pythService.js';
 
 export interface Agent {
   agentId: string;

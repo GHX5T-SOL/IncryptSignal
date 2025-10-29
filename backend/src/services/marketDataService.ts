@@ -77,10 +77,10 @@ class MarketDataService {
         throw new Error(`CoinGlass API error: ${response.status}`);
       }
 
-      const data = await response.json();
-      if (data.data && data.data.length > 0) {
-        const latest = data.data[data.data.length - 1];
-        return latest.longShortRatio || null;
+      const data = await response.json() as any;
+      if (data?.data && Array.isArray(data.data) && data.data.length > 0) {
+        const latest = data.data[data.data.length - 1] as any;
+        return latest?.longShortRatio || null;
       }
       return null;
     } catch (error) {
@@ -104,9 +104,9 @@ class MarketDataService {
         throw new Error(`Fear & Greed API error: ${response.status}`);
       }
 
-      const data = await response.json();
-      if (data.data && data.data.length > 0) {
-        return parseInt(data.data[0].value, 10);
+      const data = await response.json() as any;
+      if (data?.data && Array.isArray(data.data) && data.data.length > 0) {
+        return parseInt(data.data[0].value as string, 10);
       }
       return null;
     } catch (error) {
@@ -131,12 +131,12 @@ class MarketDataService {
         throw new Error(`CoinGlass liquidation API error: ${response.status}`);
       }
 
-      const data = await response.json();
-      if (data.data && data.data.length > 0) {
-        const latest = data.data[data.data.length - 1];
+      const data = await response.json() as any;
+      if (data?.data && Array.isArray(data.data) && data.data.length > 0) {
+        const latest = data.data[data.data.length - 1] as any;
         return {
-          longLiquidations: latest.longLiquidations || 0,
-          shortLiquidations: latest.shortLiquidations || 0,
+          longLiquidations: latest?.longLiquidations || 0,
+          shortLiquidations: latest?.shortLiquidations || 0,
         };
       }
       return null;

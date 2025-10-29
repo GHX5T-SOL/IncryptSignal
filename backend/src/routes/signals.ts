@@ -1,9 +1,9 @@
 import { Router, Request, Response } from 'express';
-import { SignalService } from '../services/signalService';
-import { agentService } from '../services/agentService';
-import { receiptService } from '../services/receiptService';
-import { reputationService } from '../services/reputationService';
-import { createX402Middleware } from '../middleware/x402';
+import { SignalService } from '../services/signalService.js';
+import { agentService } from '../services/agentService.js';
+import { receiptService } from '../services/receiptService.js';
+import { reputationService } from '../services/reputationService.js';
+import { createX402Middleware } from '../middleware/x402.js';
 
 export function createSignalsRouter(
   signalService: SignalService,
