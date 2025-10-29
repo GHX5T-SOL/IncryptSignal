@@ -1,0 +1,43 @@
+{
+  "name": "incryptsignal-backend",
+  "version": "1.0.0",
+  "description": "IncryptSignal backend server with x402 integration",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/server.ts",
+    "start": "node dist/server.js",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write src/**/*.ts"
+  },
+  "keywords": [
+    "solana",
+    "x402",
+    "micropayments",
+    "pyth",
+    "trading-signals"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@payai/x402-solana": "^0.1.0",
+    "@pythnetwork/pyth-sdk-solana": "^1.0.0",
+    "@solana/web3.js": "^1.95.4",
+    "bs58": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.7.9",
+    "@typescript-eslint/eslint-plugin": "^8.15.0",
+    "@typescript-eslint/parser": "^8.15.0",
+    "eslint": "^9.15.0",
+    "prettier": "^3.3.3",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}
+
