@@ -36,8 +36,29 @@ app.use(cors({
   },
   credentials: true,
   methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Payment', 'x-payment'],
+  allowedHeaders: '*', // Allow all headers for x402 protocol compatibility
+  exposedHeaders: [
+    'X-Payment',
+    'x-payment',
+    'x-payment-*',
+    'content-type',
+    'access-control-expose-headers',
+    'access-control-allow-headers',
+  ],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
 }));
+
+// Handle preflight requests explicitly
+app.options('*', cors({
+  origin: true,
+  credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: '*', // Allow all headers for x402 protocol compatibility
+  exposedHeaders: ['X-Payment', 'x-payment', 'Content-Type'],
+  maxAge: 86400, // 24 hours
+}));
+
 app.use(express.json());
 
 // Health check endpoint

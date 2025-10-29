@@ -45,6 +45,10 @@ export function createX402Middleware(config: X402Config, routeConfig: { price: s
       // If no payment header, return 402
       if (!paymentHeader) {
         const response = x402.create402Response(paymentRequirements);
+        // Add CORS headers explicitly for 402 response
+        res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+        res.setHeader('Access-Control-Expose-Headers', 'X-Payment, x-payment');
         res.status(response.status).json(response.body);
         return;
       }
@@ -52,6 +56,10 @@ export function createX402Middleware(config: X402Config, routeConfig: { price: s
       // Verify payment
       const verified = await x402.verifyPayment(paymentHeader, paymentRequirements);
       if (!verified) {
+        // Add CORS headers for 402 response
+        res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+        res.setHeader('Access-Control-Expose-Headers', 'X-Payment, x-payment');
         res.status(402).json({
           success: false,
           error: 'Invalid payment',
