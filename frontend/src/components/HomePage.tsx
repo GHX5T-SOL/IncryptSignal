@@ -61,7 +61,6 @@ export const HomePage: React.FC = () => {
               Real-Time Analysis
             </h3>
             <p className="text-gray-300 leading-relaxed text-sm sm:text-base">
-            <p className="text-gray-300 leading-relaxed">
               Comprehensive technical and fundamental analysis including RSI, MACD, long/short ratios, liquidation heatmaps, and fear & greed indices.
             </p>
           </motion.div>
