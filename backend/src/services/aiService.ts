@@ -282,19 +282,6 @@ Analysis:`;
         short: getAssetSignal(symbol, true),
       },
     };
-    
-    // Use asset-specific bias based on symbol
-    const assetBias: Record<string, number> = {
-      'BTC/USD': 0.45, // Slightly bullish bias
-      'ETH/USD': 0.48, // Near neutral
-      'SOL/USD': 0.42, // More bullish bias
-    };
-    
-    const agentFactors: Record<string, { bias: number; volatility: number }> = {
-      zyra: { bias: assetBias[symbol || ''] || 0.6, volatility: 0.15 },
-      aria: { bias: assetBias[symbol || ''] || 0.5, volatility: 0.08 },
-      nova: { bias: assetBias[symbol || ''] || 0.4, volatility: 0.05 },
-    };
 
     const reasoning = mockReasonings[agentId]?.[isShort ? 'short' : 'long'] || 
       `Based on ${riskLevel}-risk technical analysis, I recommend a ${isShort ? 'short' : 'long'} position. Current market conditions show ${isShort ? 'bearish' : 'bullish'} indicators with measured confidence.`;
