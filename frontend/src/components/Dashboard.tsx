@@ -69,7 +69,7 @@ export const Dashboard: React.FC = () => {
         >
           <div className="flex items-center justify-center gap-4 mb-4">
             <img 
-              src={`${process.env.PUBLIC_URL || ''}/logo.png`} 
+              src="/logo.png" 
               alt="IncryptSignal Logo" 
               className="h-16 w-16 object-contain"
             />
