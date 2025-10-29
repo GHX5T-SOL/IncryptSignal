@@ -209,13 +209,6 @@ Analysis:`;
     currentPrice: number,
     symbol?: string,
   ): AIAnalysisResult {
-    // Use agent-specific logic for more realistic mock data
-    const agentFactors: Record<string, { bias: number; volatility: number }> = {
-      zyra: { bias: 0.6, volatility: 0.15 }, // High risk - more aggressive
-      aria: { bias: 0.5, volatility: 0.08 }, // Medium risk - balanced
-      nova: { bias: 0.4, volatility: 0.05 }, // Low risk - conservative
-    };
-
     // Use asset-specific bias based on symbol
     const assetBias: Record<string, number> = {
       'BTC/USD': 0.45, // Slightly bullish bias

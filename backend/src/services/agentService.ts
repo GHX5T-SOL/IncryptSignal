@@ -173,7 +173,7 @@ class AgentService {
       marketData,
     ).catch(() => {
       // If even mock fails, return basic defaults
-      return aiService['getMockAnalysis'](agent.agentId, agent.riskLevel, currentPrice);
+      return aiService.getMockAnalysis(agent.agentId, agent.riskLevel, currentPrice, symbol);
     });
 
     // Calculate liquidation level
