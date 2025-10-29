@@ -51,7 +51,7 @@ export const HomePage: React.FC = () => {
           </motion.div>
 
           <motion.div
-            className="liquid-glass rounded-lg p-6 hover:scale-105 transition-transform duration-300"
+            className="liquid-glass rounded-lg p-4 sm:p-6 hover:scale-105 transition-transform duration-300"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
@@ -105,8 +105,8 @@ export const HomePage: React.FC = () => {
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-neon-magenta to-neon-cyan flex items-center justify-center text-2xl font-bold">
                 2
               </div>
-              <h4 className="text-xl font-semibold text-neon-cyan mb-2">Select Asset</h4>
-              <p className="text-gray-300 text-sm">
+              <h4 className="text-lg sm:text-xl font-semibold text-neon-cyan mb-2">Select Asset</h4>
+              <p className="text-gray-300 text-xs sm:text-sm">
                 Choose BTC/USD, ETH/USD, or SOL/USD
               </p>
             </div>
@@ -114,8 +114,8 @@ export const HomePage: React.FC = () => {
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-neon-magenta to-neon-cyan flex items-center justify-center text-2xl font-bold">
                 3
               </div>
-              <h4 className="text-xl font-semibold text-neon-cyan mb-2">Pay & Analyze</h4>
-              <p className="text-gray-300 text-sm">
+              <h4 className="text-lg sm:text-xl font-semibold text-neon-cyan mb-2">Pay & Analyze</h4>
+              <p className="text-gray-300 text-xs sm:text-sm">
                 Make micropayment via Solana x402 protocol
               </p>
             </div>
@@ -123,8 +123,8 @@ export const HomePage: React.FC = () => {
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-neon-magenta to-neon-cyan flex items-center justify-center text-2xl font-bold">
                 4
               </div>
-              <h4 className="text-xl font-semibold text-neon-cyan mb-2">Get Signal</h4>
-              <p className="text-gray-300 text-sm">
+              <h4 className="text-lg sm:text-xl font-semibold text-neon-cyan mb-2">Get Signal</h4>
+              <p className="text-gray-300 text-xs sm:text-sm">
                 Receive AI-generated trading signal with full analysis
               </p>
             </div>

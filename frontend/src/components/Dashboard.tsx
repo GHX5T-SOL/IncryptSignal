@@ -204,7 +204,7 @@ export const Dashboard: React.FC = () => {
                   disabled={!selectedAgent || !selectedAsset || isLoading}
                   className="cyberpunk-button w-full py-3 sm:py-4 text-base sm:text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isLoading ? 'Processing...' : 'Request Signal'}
+                  {isLoading ? 'Processing...' : 'Request Signal ($0.01)'}
                 </button>
 
                 {/* Error Display */}
