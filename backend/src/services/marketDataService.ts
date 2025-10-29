@@ -164,8 +164,9 @@ class MarketDataService {
 
   /**
    * Mock market data for fallback
+   * Made public for agentService to use as final fallback
    */
-  private getMockMarketData(): MarketData {
+  getMockMarketData(): MarketData {
     return {
       longShortRatio: 1.2, // Slightly more longs than shorts
       fearGreedIndex: 55, // Neutral
