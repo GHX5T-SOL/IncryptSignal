@@ -153,7 +153,7 @@ All components have been implemented and the project is ready for hackathon subm
 ### Backend
 - @payai/x402-solana - x402 protocol
 - @solana/web3.js - Solana interactions
-- @pythnetwork/pyth-sdk-solana - Price feeds
+- @pythnetwork/client - Price feeds
 - express, cors, dotenv - Server
 
 ### Frontend

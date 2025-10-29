@@ -243,7 +243,7 @@ incryptsignal/
 - **TypeScript** - Type safety
 - **@payai/x402-solana** - x402 protocol integration
 - **@solana/web3.js** - Solana blockchain interaction
-- **@pythnetwork/pyth-sdk-solana** - Oracle price feeds
+- **@pythnetwork/client** - Oracle price feeds
 
 ### Frontend
 - **React** - UI framework

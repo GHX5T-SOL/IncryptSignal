@@ -21,7 +21,7 @@
   "license": "MIT",
   "dependencies": {
     "@payai/x402-solana": "^0.1.0",
-    "@pythnetwork/pyth-sdk-solana": "^1.0.0",
+    "@pythnetwork/client": "^2.22.1",
     "@solana/web3.js": "^1.95.4",
     "bs58": "^6.0.0",
     "cors": "^2.8.5",

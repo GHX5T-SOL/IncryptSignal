@@ -1,5 +1,5 @@
 import { Connection, clusterApiUrl } from '@solana/web3.js';
-import { PythHttpClient, getPythProgramKeyForCluster } from '@pythnetwork/pyth-sdk-solana';
+import { PythHttpClient, getPythProgramKeyForCluster } from '@pythnetwork/client';
 
 export interface PriceData {
   price: number;
